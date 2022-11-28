@@ -1,9 +1,15 @@
 
+import Table from './components/table/Table';
+import Form from './components/form/Form';
 import './App.css';
 
 function App() {
   return (
-    <p>app</p>
+    <>
+      <Form/>
+      <Table/>
+</>
+    
    
   );
 }
