@@ -10,27 +10,15 @@ import CallIcon from "@mui/icons-material/Call";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import { FormControl } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import app from "../../utils/firebase";
+import { getDatabase, ref, set, push } from "firebase/database";
+import { useContext } from "react";
+import { ContactContext } from "../../App";
+
 
 const Form = () => {
-  const CssTextField = styled(TextField)({
-    "& label.Mui-focused": {
-      color: "white",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "white",
-    },
-    "& .MuiInput-underline:before": {
-      borderBottomColor: "white",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fielset": {
-        borderColor: "white",
-      },
-    },
-  });
+  const { userContact, setUserContact } = useContext(ContactContext);
+
   const genderSelect = [
     {
       value: "male",
@@ -46,9 +34,26 @@ const Form = () => {
     },
   ];
   const [gender, setGender] = useState("male");
+
   const handleChange = (event) => {
     setGender(event.target.value);
+    setUserContact({ ...userContact, gender: event.target.value });
   };
+
+  const addUser = (user) => {
+    const database = getDatabase(app);
+    const userRef = ref(database, "user/");
+    const newUserRef = push(userRef);
+
+    set(newUserRef, {
+      name: user.name,
+      phone: user.phoneNumber,
+      gender: user.gender,
+    });
+    console.log(database);
+  };
+
+  console.log(userContact);
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -63,23 +68,30 @@ const Form = () => {
         <Box sx={{ display: "flex", alignItems: "flex-end" }}>
           <AccountCircle sx={{ color: "white", mr: 1, my: 0.5 }} />
 
-          <CssTextField
+          <TextField
             InputLabelProps={{ style: { color: "white" } }}
             id="input-with-sx"
             label="Name"
             variant="standard"
             color="primary"
             inputProps={{ style: { color: "white" } }}
+            onChange={(e) =>
+              setUserContact({ ...userContact, name: e.target.value })
+            }
           />
         </Box>
         <Box sx={{ display: "flex", alignItems: "flex-end" }}>
           <CallIcon sx={{ color: "white", mr: 1, my: 0.5 }} />
-          <CssTextField
+          <TextField
+            // inputProps={{pattern:"[0-9]"}}
             InputLabelProps={{ style: { color: "white" } }}
             id="input-with-sx"
             label="Phone Number"
             variant="standard"
             sx={{ input: { color: "white" } }}
+            onChange={(e) =>
+              setUserContact({ ...userContact, phoneNumber: e.target.value })
+            }
           />
         </Box>
 
@@ -94,7 +106,7 @@ const Form = () => {
           autoComplete="off"
         >
           <div>
-            <CssTextField
+            <TextField
               InputLabelProps={{ style: { color: "white" } }}
               id="standard-select-currency"
               select
@@ -104,15 +116,17 @@ const Form = () => {
               variant="standard"
             >
               {genderSelect.map((option) => (
-                <MenuItem  key={option.value} value={option.value}>
+                <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
               ))}
-            </CssTextField>
+            </TextField>
           </div>
         </Box>
 
-        <Button variant="contained">Add</Button>
+        <Button onClick={() => addUser(userContact)} variant="contained">
+          Add
+        </Button>
       </LoginDivStyled>
     </div>
   );
