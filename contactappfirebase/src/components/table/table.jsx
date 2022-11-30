@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { TableStyled } from "./Table.styled";
 import "./table.css";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, remove } from "firebase/database";
 import app from "../../utils/firebase";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 
 const Table = () => {
   const [contactList, setContactList] = useState([]);
+
+  const handleEdit = (id) => {
+    
+  }
+
+  const handleDelete = (id) => {
+    const database = getDatabase(app);
+    const dataRef = ref(database, `user/${id}`);
+    remove(dataRef);
+  };
 
   const handleGet = () => {
     const database = getDatabase(app);
@@ -57,7 +67,7 @@ const Table = () => {
             </tr>
           </thead>
           {contactList.map((item) => {
-            const { name, gender, phone } = item;
+            const { id, name, gender, phone } = item;
             return (
               <tbody>
                 <tr>
@@ -65,10 +75,10 @@ const Table = () => {
                   <td>{phone}</td>
                   <td>{gender}</td>
                   <td>
-                    <DeleteIcon />
+                    <DeleteIcon  onClick={() => handleDelete(id)} />
                   </td>
                   <td>
-                    <EditIcon/>
+                    <EditIcon onClick={()=>handleEdit(id)} />
                   </td>
                 </tr>
               </tbody>
