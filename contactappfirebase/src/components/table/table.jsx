@@ -10,7 +10,8 @@ const Table = () => {
   const [contactList, setContactList] = useState([]);
 
   const handleEdit = (id) => {
-    
+    const database= getDatabase();
+    const dataRef =ref(database, `user/${id}`)
   }
 
   const handleDelete = (id) => {
