@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TableStyled } from "./Table.styled";
 import "./table.css";
 import { getDatabase, ref, onValue, remove } from "firebase/database";
@@ -6,25 +6,23 @@ import app from "../../utils/firebase";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import Edit from "../edit/Edit";
+import { ContactContext } from "../../App";
+
 
 const Table = () => {
-  const [contactList, setContactList] = useState([]);
 
+  const {userContact, setUserContact}= useContext(ContactContext)
+  const [dataId, setDataId] = useState("")
+
+
+  const [contactList, setContactList] = useState([]);
 
   const handleDelete = (id) => {
     const database = getDatabase(app);
     const dataRef = ref(database, `user/${id}`);
     remove(dataRef);
   };
-
-  const handleGet = () => {
-    const database = getDatabase(app);
-    const constactRef = ref(database, "user/");
-
-    onValue(constactRef, (snapshot) => {
-      console.log(snapshot.val());
-    });
-  };
+ 
 
   useEffect(() => {
     const database = getDatabase(app);
@@ -52,12 +50,14 @@ const Table = () => {
       }}
     >
       <TableStyled>
+      
+
         <p>Contacts</p>
 
-        <table className="table table-striped table-hover">
+        <table className="table text-center table-hover">
           <thead>
             <tr>
-              <th>user name</th>
+              <th>username</th>
               <th>Phone Number</th>
               <th>gender</th>
               <th>delete</th>
@@ -65,18 +65,30 @@ const Table = () => {
             </tr>
           </thead>
           {contactList.map((item) => {
-            const { id, name, gender, phone } = item;
+            const { id, name, gender, phoneNumber } = item;
+
+            const handleEdit =()=>{
+              setUserContact({...userContact, name:name, gender:gender, phoneNumber: phoneNumber })
+              setDataId(id)
+            }
             return (
               <tbody>
                 <tr>
                   <td>{name}</td>
-                  <td>{phone}</td>
+                  <td>{phoneNumber}</td>
                   <td>{gender}</td>
                   <td>
-                    <DeleteIcon  onClick={() => handleDelete(id)} />
+                    <DeleteIcon
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleDelete(id)}
+                    />
                   </td>
                   <td>
-                    <EditIcon data-bs-target="#editData" data-bs-toggle="modal"  />
+                    <EditIcon
+                      data-bs-target="#editData" onClick={handleEdit}
+                      data-bs-toggle="modal"
+                      style={{ cursor: "pointer" }}
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -84,8 +96,8 @@ const Table = () => {
           })}
         </table>
       </TableStyled>
-      <button onClick={handleGet}>get contacts</button>
-      <Edit/>
+      
+      <Edit dataId ={dataId} />
     </div>
   );
 };

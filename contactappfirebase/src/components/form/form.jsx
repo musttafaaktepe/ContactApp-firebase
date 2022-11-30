@@ -1,10 +1,11 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { LoginDivStyled } from "./Form.styled";
 import MenuItem from "@mui/material/MenuItem";
-import Button from "@mui/material/Button";
+
 import { useState } from "react";
 import CallIcon from "@mui/icons-material/Call";
 import "@fontsource/roboto/300.css";
@@ -47,7 +48,7 @@ const Form = () => {
 
     set(newUserRef, {
       name: user.name,
-      phone: user.phoneNumber,
+      phoneNumber: user.phoneNumber,
       gender: user.gender,
     });
     console.log(database);
