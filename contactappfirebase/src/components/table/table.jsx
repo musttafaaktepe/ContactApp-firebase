@@ -5,14 +5,11 @@ import { getDatabase, ref, onValue, remove } from "firebase/database";
 import app from "../../utils/firebase";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
+import Edit from "../edit/Edit";
 
 const Table = () => {
   const [contactList, setContactList] = useState([]);
 
-  const handleEdit = (id) => {
-    const database= getDatabase();
-    const dataRef =ref(database, `user/${id}`)
-  }
 
   const handleDelete = (id) => {
     const database = getDatabase(app);
@@ -57,7 +54,7 @@ const Table = () => {
       <TableStyled>
         <p>Contacts</p>
 
-        <table>
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th>user name</th>
@@ -79,7 +76,7 @@ const Table = () => {
                     <DeleteIcon  onClick={() => handleDelete(id)} />
                   </td>
                   <td>
-                    <EditIcon onClick={()=>handleEdit(id)} />
+                    <EditIcon data-bs-target="#editData" data-bs-toggle="modal"  />
                   </td>
                 </tr>
               </tbody>
@@ -88,6 +85,7 @@ const Table = () => {
         </table>
       </TableStyled>
       <button onClick={handleGet}>get contacts</button>
+      <Edit/>
     </div>
   );
 };

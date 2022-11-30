@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const TableStyled = styled.div`
 background-color: white;
-width : 30vw;
+width : 80vw;
 display: flex;
 flex-direction: column;
 justify-content: center;
