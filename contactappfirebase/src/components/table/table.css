@@ -1,0 +1,19 @@
+table, th ,td {
+    border:1px solid blue;
+    border-collapse: collapse;
+}
+
+table{
+    padding: 1rem;
+}
+th{
+    width:15rem;
+    height:5rem;
+    
+}
+
+p{
+    font-size: large;
+    font-weight: 500;
+
+}
