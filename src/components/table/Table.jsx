@@ -7,13 +7,13 @@ import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import Edit from "../edit/Edit";
 import { ContactContext } from "../../App";
-import { errorNotify, successNotify, warningNotify } from "../../utils/ToastifyNotifiens";
+import { errorNotify, warningNotify } from "../../utils/ToastifyNotifiens";
 
 const Table = () => {
   const { userContact, setUserContact } = useContext(ContactContext);
   const [dataId, setDataId] = useState();
 
-  const [contactList, setContactList] = useState([]);
+  const [contactList, setContactList] = useState([""]);
 
   const handleDelete = (id) => {
     try {
@@ -68,7 +68,7 @@ const Table = () => {
           {contactList.length === 0 ? (
             <td className="text-center" colSpan="5">
               "notfound"
-              
+              {errorNotify("you have no contact")}
             </td>
           ) : (
             contactList.map((item) => {
