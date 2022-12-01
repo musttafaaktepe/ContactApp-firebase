@@ -60,6 +60,7 @@ const Form = () => {
         gender: "male",
       });
       successNotify("success");
+      setGender("male")
     } catch (error) {
       console.log(error);
     }
