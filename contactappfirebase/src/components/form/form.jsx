@@ -15,6 +15,7 @@ import app from "../../utils/firebase";
 import { getDatabase, ref, set, push } from "firebase/database";
 import { useContext } from "react";
 import { ContactContext } from "../../App";
+import { successNotify } from "../../utils/ToastifyNotifiens";
 
 
 const Form = () => {
@@ -42,7 +43,10 @@ const Form = () => {
   };
 
   const addUser = (user) => {
-    const database = getDatabase(app);
+    
+
+    try {
+      const database = getDatabase(app);
     const userRef = ref(database, "user/");
     const newUserRef = push(userRef);
 
@@ -52,6 +56,12 @@ const Form = () => {
       gender: user.gender,
     });
     console.log(database);
+    successNotify("success")
+    } catch (error) {
+      console.log(error);
+    }
+    
+    
   };
 
   console.log(userContact);

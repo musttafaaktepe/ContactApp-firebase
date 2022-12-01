@@ -2,14 +2,24 @@ import { getDatabase, ref, update } from "firebase/database";
 import { useContext } from "react";
 import { ContactContext } from "../../App";
 import app from "../../utils/firebase";
+import { infoNotify } from "../../utils/ToastifyNotifiens";
 
 const Edit = ({ dataId }) => {
     const { userContact, setUserContact } = useContext(ContactContext)
 
     const handleUpdate = (userContact) => {
-        const database = getDatabase(app);
+
+        try {
+            const database = getDatabase(app);
         const dataRef = ref(database, `user/${dataId}`)
         update(dataRef, userContact)
+        infoNotify("edited")
+            
+        } catch (error) {
+            console.log(error);
+        }
+        
+
     }
     console.log(userContact);
     return (
