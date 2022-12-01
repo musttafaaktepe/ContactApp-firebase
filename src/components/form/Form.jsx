@@ -17,7 +17,6 @@ import { useContext } from "react";
 import { ContactContext } from "../../App";
 import { successNotify } from "../../utils/ToastifyNotifiens";
 
-
 const Form = () => {
   const { userContact, setUserContact } = useContext(ContactContext);
 
@@ -43,25 +42,27 @@ const Form = () => {
   };
 
   const addUser = (user) => {
-    
-
     try {
       const database = getDatabase(app);
-    const userRef = ref(database, "user/");
-    const newUserRef = push(userRef);
+      const userRef = ref(database, "user/");
+      const newUserRef = push(userRef);
 
-    set(newUserRef, {
-      name: user.name,
-      phoneNumber: user.phoneNumber,
-      gender: user.gender,
-    });
-    console.log(database);
-    successNotify("success")
+      set(newUserRef, {
+        name: user.name,
+        phoneNumber: user.phoneNumber,
+        gender: user.gender,
+      });
+      console.log(database);
+      setUserContact({
+        ...userContact,
+        name: "",
+        phoneNumber: "",
+        gender: "male",
+      });
+      successNotify("success");
     } catch (error) {
       console.log(error);
     }
-    
-    
   };
 
   console.log(userContact);
@@ -82,6 +83,7 @@ const Form = () => {
           <TextField
             InputLabelProps={{ style: { color: "white" } }}
             id="input-with-sx"
+            value={userContact.name}
             label="Name"
             variant="standard"
             color="primary"
@@ -97,6 +99,7 @@ const Form = () => {
             // inputProps={{pattern:"[0-9]"}}
             InputLabelProps={{ style: { color: "white" } }}
             id="input-with-sx"
+            value={userContact.phoneNumber}
             label="Phone Number"
             variant="standard"
             sx={{ input: { color: "white" } }}
