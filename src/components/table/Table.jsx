@@ -68,7 +68,7 @@ const Table = () => {
           {contactList.length === 0 ? (
             <td className="text-center" colSpan="5">
               "notfound"
-              {errorNotify("you have no contact")}
+              
             </td>
           ) : (
             contactList.map((item) => {

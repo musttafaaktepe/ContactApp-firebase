@@ -14,6 +14,7 @@ const Edit = ({ dataId }) => {
         const dataRef = ref(database, `user/${dataId}`)
         update(dataRef, userContact)
         infoNotify("edited")
+        setUserContact({...userContact, name:"-", phoneNumber:"-", gender:"male" })
             
         } catch (error) {
             console.log(error);
