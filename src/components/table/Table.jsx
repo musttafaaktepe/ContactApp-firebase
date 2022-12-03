@@ -58,11 +58,11 @@ const Table = () => {
         <table className="table text-center table-hover">
           <thead>
             <tr>
-              <th>username</th>
+              <th>Name</th>
               <th>Phone Number</th>
-              <th>gender</th>
-              <th>delete</th>
-              <th>edit</th>
+              <th>Gender</th>
+              <th>Delete</th>
+              <th>Edit</th>
             </tr>
           </thead>
           {contactList.length === 0 ? (
