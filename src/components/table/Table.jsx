@@ -59,7 +59,7 @@ const Table = () => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Phone Number</th>
+              <th>Phone</th>
               <th>Gender</th>
               <th>Delete</th>
               <th>Edit</th>
